@@ -278,7 +278,7 @@ function genTriAngle(){
   P=P.map(p=>[12+(p[0]-mnx)*s,88-p[1]*s]);
   const cen=[(P[0][0]+P[1][0]+P[2][0])/3,(P[0][1]+P[1][1]+P[2][1])/3];
   const hide=ri(0,2),angs=[a,b,c];
-  const lab=P.map((p,i)=>{const dx=cen[0]-p[0],dy=cen[1]-p[1],d=Math.hypot(dx,dy),k=Math.min(13,d*.45);return T(p[0]+dx/d*k,p[1]+dy/d*k+2.4,i===hide?'ア':angs[i]+'°')}).join('');
+  const lab=P.map((p,i)=>{const q1=P[(i+1)%3],q2=P[(i+2)%3],u=[q1[0]-p[0],q1[1]-p[1]],v=[q2[0]-p[0],q2[1]-p[1]],nu=Math.hypot(...u),nv=Math.hypot(...v);let bx=u[0]/nu+v[0]/nv,by=u[1]/nu+v[1]/nv;const bl=Math.hypot(bx,by)||1;const half=angs[i]*Math.PI/360,k=Math.max(7,Math.min(17,5.5/Math.sin(half)));return T(p[0]+bx/bl*k,p[1]+by/bl*k+2.4,i===hide?'ア':angs[i]+'°')}).join('');
   const svg=SVGW('0 0 100 100',`<polygon points="${P.map(p=>`${num(p[0])},${num(p[1])}`).join(' ')}" fill="#ededed" stroke="#111" stroke-width="1.3"/>${lab}`);
   const kn=angs.filter((_,i)=>i!==hide);
   return{q:`<div class="fig">${svg}</div>`,a:`<b>${angs[hide]}°</b>`,steps:['三角形の 3つの角の 和は 180°',`180° − (${kn[0]}° + ${kn[1]}°) = ${angs[hide]}°`]};

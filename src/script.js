@@ -617,10 +617,17 @@ function render(){
   curSeed=state.seed;
   const all=state.answers?sheets.concat(answers):sheets;
   stack.innerHTML=all.join('');
+  liftSvgText(stack);
   paginate();
   $('#count').textContent=`A4 ${stack.querySelectorAll('.sheet').length}枚`;
   fit();
 }
+/* 図の文字を線より上に描く（白いふちどりと合わせて、線が重なっても読めるように） */
+function liftSvgText(root){root.querySelectorAll('svg').forEach(svg=>{[...svg.children].filter(c=>c.tagName.toLowerCase()==='text').forEach(t=>svg.appendChild(t))});
+  /* 文字が図の枠からはみ出すときは、枠（viewBox）を広げる */
+  root.querySelectorAll('svg[viewBox]').forEach(svg=>{if(svg.ownerSVGElement)return;try{const vb=svg.viewBox.baseVal,bb=svg.getBBox();if(!vb||!vb.width||!bb.width)return;
+    const x0=Math.min(vb.x,bb.x-1),y0=Math.min(vb.y,bb.y-1),x1=Math.max(vb.x+vb.width,bb.x+bb.width+1),y1=Math.max(vb.y+vb.height,bb.y+bb.height+1);
+    if(x0<vb.x-.2||y0<vb.y-.2||x1>vb.x+vb.width+.2||y1>vb.y+vb.height+.2)svg.setAttribute('viewBox',`${num(x0)} ${num(y0)} ${num(x1-x0)} ${num(y1-y0)}`)}catch(e){}})}
 /* A4 1枚に入りきらないときは、問題単位で次のページへ送る */
 const A4H=297*96/25.4;
 function paginate(){

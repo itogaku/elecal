@@ -336,7 +336,7 @@ addUnits(4,'直方体と 立方体',[
   gen(){const P={A:[10,30],B:[60,30],C:[60,70],D:[10,70],E:[30,12],F:[80,12],G:[80,52],H:[30,52]};
    const ln=(a,b,d)=>`<line x1="${P[a][0]}" y1="${P[a][1]}" x2="${P[b][0]}" y2="${P[b][1]}" stroke="#111" stroke-width="1" ${d?'stroke-dasharray="2 1.5"':''}/>`;
    let g=['AB','BC','CD','DA','EF','FG','AE','BF','CG'].map(e=>ln(e[0],e[1])).join('')+['HE','HG','HD'].map(e=>ln(e[0],e[1],1)).join('');
-   g+=Object.entries(P).map(([k,p])=>T(p[0]+(p[0]<40?-3:3),p[1]+(p[1]<40?-1:5),k,5)).join('');
+   g+=Object.entries(P).map(([k,p])=>{const o={A:[-4,0],B:[4,3],C:[3,5.5],D:[-4,5.5],E:[-3,-2],F:[3.5,-2],G:[4,4.5],H:[3.5,-2.5]}[k];return T(p[0]+o[0],p[1]+o[1],k,5,o[0]<0?'end':'start')}).join('');
    const q=pick([
     {q:'面あ（ABCD）に平行な面はどれですか。',a:'面EFGH',s:'向かい合った面が平行'},
     {q:'辺ABに平行な辺をすべて答えましょう。',a:'辺DC、辺EF、辺HG',s:'同じ向きの辺'},
@@ -563,7 +563,7 @@ addUnits(4,'直方体と 立方体',[
   gen(){const a=ri(3,9),b=ri(2,6),c=ri(2,6);const P={A:[10,30],B:[60,30],C:[60,70],D:[10,70],E:[30,12],F:[80,12],G:[80,52],H:[30,52]};const pos={A:[0,0,c],B:[a,0,c],C:[a,0,0],E:[0,b,c],F:[a,b,c],G:[a,b,0],H:[0,b,0]};
    const ln=(p,q,d)=>`<line x1="${P[p][0]}" y1="${P[p][1]}" x2="${P[q][0]}" y2="${P[q][1]}" stroke="#111" stroke-width="1" ${d?'stroke-dasharray="2 1.5"':''}/>`;
    let g=['AB','BC','CD','DA','EF','FG','AE','BF','CG'].map(e=>ln(e[0],e[1])).join('')+['HE','HG','HD'].map(e=>ln(e[0],e[1],1)).join('');
-   g+=Object.entries(P).map(([k,p])=>T(p[0]+(p[0]<40?-3:3),p[1]+(p[1]<40?-1:5),k,5)).join('')+T(35,77,`横 ${a}cm`,4.2)+T(74,66,`たて ${b}cm`,4.2,'start')+T(6,52,`高さ ${c}cm`,4.2,'end');
+   g+=Object.entries(P).map(([k,p])=>{const o={A:[-4,0],B:[4,3],C:[3,5.5],D:[-4,5.5],E:[-3,-2],F:[3.5,-2],G:[4,4.5],H:[3.5,-2.5]}[k];return T(p[0]+o[0],p[1]+o[1],k,5,o[0]<0?'end':'start')}).join('')+T(35,77,`横 ${a}cm`,4.2)+T(74,66,`たて ${b}cm`,4.2,'start')+T(6,52,`高さ ${c}cm`,4.2,'end');
    const k=pick(['B','F','G','E']);const p=pos[k];
    return{q:`<div class="fig">${SVGW('-14 0 106 82',g)}</div><div class="figcap">頂点${k}の位置</div>`,a:`<b>（横 ${p[0]}cm、たて ${p[1]}cm、高さ ${p[2]}cm）</b>`,steps:[`Dから横に ${p[0]}cm、たてに ${p[1]}cm、高さ ${p[2]}cm 進む`]}}},
  {id:'g4-cubeface',title:'展開図で向かい合う面',kind:'fig',n:4,cols:2,lead:'展開図を組み立てたとき、色のついた面と向かい合う面の数字を答えましょう。',

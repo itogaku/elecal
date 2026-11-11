@@ -42,10 +42,10 @@ const NEW6={
   ])()}},
  'sector':{id:'sector',title:'おうぎ形の面積とまわりの長さ',kind:'fig',n:6,cols:3,lead:'つぎのおうぎ形の、面積とまわりの長さを求めましょう。円周率は 3.14 とします。',
   explain:{points:[{h:'おうぎ形の面積',b:'円の面積 × 中心角/360',ex:'半径6cm・中心角60° → 6 × 6 × 3.14 × 60/360'},{h:'まわりの長さ',b:'曲線部分（円周 × 中心角/360）に、半径2本分をたします。'}],tip:'<b>ちゅうい</b>　まわりの長さでは、半径2本分を忘れやすいので気をつけましょう。'},
-  gen(){const ang=pick([30,45,60,90,120,135,150,180,240,270]),r=pick([2,3,4,6,8,9,10,12]);const fr=ang/360;
+  gen(){let ang,r;do{ang=pick([30,45,60,90,120,135,150,180,240,270]);r=pick([2,3,4,6,8,9,10,12])}while((r*r*314*ang)%360||(2*r*314*ang)%360);const fr=ang/360;
    const area=num(r*r*3.14*fr),arc=num(r*2*3.14*fr),per=num(r*2*3.14*fr+2*r);
    const cx=50,cy=50,R=34,a0=-Math.PI/2,a1=a0+ang*Math.PI/180,lg=ang>180?1:0;
-   const svg=SVGW('0 0 100 100',`<path d="M${cx},${cy} L${num(cx+R*Math.cos(a0))},${num(cy+R*Math.sin(a0))} A${R},${R} 0 ${lg} 1 ${num(cx+R*Math.cos(a1))},${num(cy+R*Math.sin(a1))} Z" fill="#ededed" stroke="#111" stroke-width="1.2"/>${T(cx+8*Math.cos((a0+a1)/2),cy+8*Math.sin((a0+a1)/2)+1.5,ang+'°',5)}${T(cx-3,cy-R/2,r+'cm',5,'end')}`);
+   const svg=SVGW('0 0 100 100',`<path d="M${cx},${cy} L${num(cx+R*Math.cos(a0))},${num(cy+R*Math.sin(a0))} A${R},${R} 0 ${lg} 1 ${num(cx+R*Math.cos(a1))},${num(cy+R*Math.sin(a1))} Z" fill="#ededed" stroke="#111" stroke-width="1.2"/>${T(cx+(ang<=60?17:ang<=120?12:9)*Math.cos((a0+a1)/2),cy+(ang<=60?17:ang<=120?12:9)*Math.sin((a0+a1)/2)+1.7,ang+'°',5)}${T(cx-3,cy-R/2,r+'cm',5,'end')}`);
    return{q:`<div class="fig">${svg}</div><div class="figcap">面積（　　）　まわり（　　）</div>`,a:`<b>面積 ${area} cm²、まわり ${per} cm</b>`,steps:[`面積：${r} × ${r} × 3.14 × ${F(ang,360)} = ${area}`,`曲線：${r*2} × 3.14 × ${F(ang,360)} = ${arc}`,`まわり：${arc} + ${r} × 2 = ${per}`]}}},
  'surface':{id:'surface',title:'角柱・円柱の表面積',kind:'word',n:6,cols:2,lead:'表面積（すべての面の面積の和）を求めましょう。円周率は 3.14 とします。',
   explain:{points:[{h:'表面積 = 底面積 × 2 + 側面積',b:'底面は2つあります。側面を開くと長方形になります。'},{h:'側面積',b:'側面の長方形は、たて = 高さ、横 = 底面のまわりの長さ です。'}],tip:'<b>こつ</b>　展開図をかくと、どの面をたせばよいかがよくわかります。'},

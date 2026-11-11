@@ -6,8 +6,8 @@ const polyS=(pts,s,ox,oy,col='#111',fill='none',w=1.3)=>`<polygon points="${pts.
 const dot=(x,y,r=1.2,c='#111')=>`<circle cx="${num(x)}" cy="${num(y)}" r="${r}" fill="${c}"/>`;
 const ABC='ABCDEFGHIJKLMN';
 function sideLab(P,i,j,t,fs=4.4){const cx=P.reduce((a,p)=>a+p[0],0)/P.length,cy=P.reduce((a,p)=>a+p[1],0)/P.length;const p=P[i],q=P[j],mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2;
-  let nx=-(q[1]-p[1]),ny=q[0]-p[0];const d=Math.hypot(nx,ny)||1;nx/=d;ny/=d;if(nx*(mx-cx)+ny*(my-cy)<0){nx=-nx;ny=-ny}return T(mx+nx*4.5,my+ny*4.5+fs*.35,t,fs)}
-function angLab(P,i,t,fs=3.8,r=7){const p=P[i],a=P[(i+1)%3],b=P[(i+2)%3];const u=[a[0]-p[0],a[1]-p[1]],v=[b[0]-p[0],b[1]-p[1]];const nu=Math.hypot(...u),nv=Math.hypot(...v);let bx=u[0]/nu+v[0]/nv,by=u[1]/nu+v[1]/nv;const d=Math.hypot(bx,by)||1;return T(p[0]+bx/d*r,p[1]+by/d*r+fs*.35,t,fs)}
+  let nx=-(q[1]-p[1]),ny=q[0]-p[0];const d=Math.hypot(nx,ny)||1;nx/=d;ny/=d;if(nx*(mx-cx)+ny*(my-cy)<0){nx=-nx;ny=-ny}const off=4.2+String(t).length*fs*.28;return T(mx+nx*off,my+ny*off+fs*.35,t,fs)}
+function angLab(P,i,t,fs=3.8,r=8.5){const p=P[i],a=P[(i+1)%3],b=P[(i+2)%3];const u=[a[0]-p[0],a[1]-p[1]],v=[b[0]-p[0],b[1]-p[1]];const nu=Math.hypot(...u),nv=Math.hypot(...v);let bx=u[0]/nu+v[0]/nv,by=u[1]/nu+v[1]/nv;const d=Math.hypot(bx,by)||1;return T(p[0]+bx/d*r,p[1]+by/d*r+fs*.35,t,fs)}
 function randPoly(W,H,k){for(let t=0;t<2000;t++){const pts=[];while(pts.length<k){const p=[ri(0,W),ri(0,H)];if(!pts.some(q=>q[0]===p[0]&&q[1]===p[1]))pts.push(p)}
   const cx=pts.reduce((a,p)=>a+p[0],0)/k,cy=pts.reduce((a,p)=>a+p[1],0)/k;pts.sort((a,b)=>Math.atan2(a[1]-cy,a[0]-cx)-Math.atan2(b[1]-cy,b[0]-cx));
   let ok=true;for(let i=0;i<k;i++){const a=pts[i],b=pts[(i+1)%k],c=pts[(i+2)%k];if((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])===0)ok=false}
@@ -17,7 +17,7 @@ function randPoly(W,H,k){for(let t=0;t<2000;t++){const pts=[];while(pts.length<k
 const kName=k=>k.n>k.d?`${FH(k)}倍の拡大図`:`${FH(k)}の縮図`;
 /** 頂点ラベルを図形の外側に置く */
 function vLabels(P,names,fs=6){const cx=P.reduce((a,p)=>a+p[0],0)/P.length,cy=P.reduce((a,p)=>a+p[1],0)/P.length;
-  return P.map((p,i)=>{const dx=p[0]-cx,dy=p[1]-cy,d=Math.hypot(dx,dy)||1;return T(p[0]+dx/d*5,p[1]+dy/d*5+fs*.35,names[i],fs)}).join('')}
+  return P.map((p,i)=>{const dx=p[0]-cx,dy=p[1]-cy,d=Math.hypot(dx,dy)||1;return T(p[0]+dx/d*6.2,p[1]+dy/d*6.2+fs*.35,names[i],fs)}).join('')}
 
 /* ---------- 6年：拡大図と縮図 ---------- */
 addUnits(6,'拡大図と縮図',[
@@ -59,9 +59,9 @@ addUnits(6,'拡大図と縮図',[
     const A=ri(10,18)*5,ra=A*Math.PI/180,kv=k.n/k.d;
     const cs=Math.cos(ra),sn=Math.sin(ra);
     const box=z=>({mn:Math.min(0,c*z*cs),w:Math.max(b*z,c*z*cs)-Math.min(0,c*z*cs),h:c*z*sn});
-    const b1=box(1),b2=box(kv),u=Math.min(76/(b1.w+b2.w),40/Math.max(b1.h,b2.h));
+    const b1=box(1),b2=box(kv),u=Math.min(70/(b1.w+b2.w),40/Math.max(b1.h,b2.h));
     const tri=(x0,z)=>[[x0,50],[x0+b*z*u,50],[x0+c*z*u*cs,50-c*z*u*sn]];
-    const P1=tri(8-b1.mn*u,1),P2=tri(8+b1.w*u+18-b2.mn*u,kv);
+    const P1=tri(8-b1.mn*u,1),P2=tri(8+b1.w*u+26-b2.mn*u,kv);
     const side=(p,q,t,flip)=>{const mx=(p[0]+q[0])/2,my=(p[1]+q[1])/2;return T(mx+(flip?-2.5:0),my+(flip?-1:8.5),t,4.4,flip?'end':'middle')};
     const lab1=vLabels(P1,['A','B','C'],5),lab2=vLabels(P2,['D','E','F'],5);
     const svg=SVGW('0 0 106 62',`${polyS(P1,1,0,0,'#111','#ededed',1)}${polyS(P2,1,0,0,'#111','#ededed',1)}${lab1}${lab2}${sideLab(P1,0,1,b+'cm')}${sideLab(P1,0,2,c+'cm')}${angLab(P1,0,A+'°')}${sideLab(P2,0,1,num(b*kv)+'cm')}`);
@@ -105,7 +105,7 @@ SYM6.items.push(
         for(const a of ang){const r=ri(2,5),x=5+Math.round(r*Math.sin(a*Math.PI/180)),y=5-Math.round(r*Math.cos(a*Math.PI/180));if(x<=5||half.some(p=>p[0]===x&&p[1]===y)){ok=false;break}half.push([x,y])}if(ok)break}
       const top=[5,ri(0,2)],bot=[5,ri(8,10)],P=[top,...half,bot,...half.map(p=>[10-p[0],p[1]]).reverse()],n=P.length,mp=i=>(n-i)%n;
       const nm=ABC.slice(0,n).split(''),s=8.6,pp=P.map(p=>[p[0]*s,p[1]*s]);
-      const svg=SVGW('-6 -6 98 98',`${polyS(P,s,0,0,'#111','#ededed',1.1)}<line x1="${5*s}" y1="-5" x2="${5*s}" y2="${10*s+5}" stroke="#111" stroke-width=".7" stroke-dasharray="5 2 1.2 2"/>${vLabels(pp,nm,5)}`);
+      const svg=SVGW('-6 -6 98 98',`${polyS(P,s,0,0,'#111','#ededed',1.1)}<line x1="${5*s}" y1="-5" x2="${5*s}" y2="${10*s+5}" stroke="#111" stroke-width=".7" stroke-dasharray="5 2 1.2 2"/>${vLabels(pp,nm,5).replace(/<text x="([\d.]+)" y="([\d.-]+)"([^>]*)>([A-Z])<\/text>/g,(m,x,y,rest,L)=>{const i=nm.indexOf(L);return P[i][0]===5?`<text x="${5*s+3}" y="${num(P[i][1]*s+(P[i][1]<5?-1.5:5))}"${rest.replace('middle','start')}>${L}</text>`:m})}`);
       const i=1,j=2;
       return{q:`<div class="fig">${svg}</div><div class="figcap">線対称な図形です。(1) 点${nm[i]}に対応する点　(2) 辺${nm[i]}${nm[j]}に対応する辺　(3) 角${nm[j]}に対応する角　(4) 直線${nm[i]}${nm[mp(i)]}と対称の軸は、どのように交わっていますか。</div>`,parts:['(1)','(2)','(3)','(4)'],
         a:`(1) <b>点${nm[mp(i)]}</b>　(2) <b>辺${nm[mp(i)]}${nm[mp(j)]}</b>　(3) <b>角${nm[mp(j)]}</b>　(4) <b>垂直に交わる</b>`,steps:['対称の軸で折ったときに重なる相手をさがす',`${nm[i]} ↔ ${nm[mp(i)]}、${nm[j]} ↔ ${nm[mp(j)]}`]};
@@ -243,9 +243,9 @@ addUnits(4,'面積と 角',[
  {id:'g4-protractor',title:'分度器で 角を はかる',kind:'fig',n:6,cols:3,lead:'分度器の 目もりを 読んで、角の 大きさを 答えましょう。',
   explain:{points:[{h:'分度器の あて方',b:'分度器の 中心を 角の 頂点に、0° の線を 角の 1つの 辺に 合わせます。'},{h:'目もりの 読み方',b:'0° から 数えて、もう1つの 辺が 通る 目もりを 読みます。1目もりは 1°、数字は 10° ごとです。'}],tip:'<b>ちゅうい</b>　分度器には 内がわと 外がわの 2つの 目もりが あります。0° から 始まる 方を 読みましょう。'},
   gen(){const th=ri(2,34)*5,cx=50,cy=56,R=44;let g=`<path d="M${cx-R},${cy} A${R},${R} 0 0 1 ${cx+R},${cy} Z" fill="#f6f6f6" stroke="#111" stroke-width=".8"/>`;
-    for(let a=0;a<=180;a+=5){const r=a*Math.PI/180,l=a%10?3:5;g+=`<line x1="${num(cx+R*Math.cos(r))}" y1="${num(cy-R*Math.sin(r))}" x2="${num(cx+(R-l)*Math.cos(r))}" y2="${num(cy-(R-l)*Math.sin(r))}" stroke="#111" stroke-width=".45"/>`;if(a%30===0)g+=T(cx+(R-10)*Math.cos(r),cy-(R-10)*Math.sin(r)+1.5,a,4.2)}
-    const r=th*Math.PI/180;g+=`<line x1="${cx}" y1="${cy}" x2="${cx+R+4}" y2="${cy}" stroke="#111" stroke-width="1.4"/><line x1="${cx}" y1="${cy}" x2="${num(cx+(R+4)*Math.cos(r))}" y2="${num(cy-(R+4)*Math.sin(r))}" stroke="#111" stroke-width="1.4"/>${dot(cx,cy,1.2)}`;
-    return{q:`<div class="fig">${SVGW('0 4 100 56',g)}</div>`,a:`<b>${th}°</b>`,steps:['0° の線に 合わせた 辺から 数える',`もう1つの 辺は ${th}° の 目もりを 通っている`]}}},
+    for(let a=0;a<=180;a+=5){const r=a*Math.PI/180,l=a%10?3:5;g+=`<line x1="${num(cx+R*Math.cos(r))}" y1="${num(cy-R*Math.sin(r))}" x2="${num(cx+(R-l)*Math.cos(r))}" y2="${num(cy-(R-l)*Math.sin(r))}" stroke="#111" stroke-width=".45"/>`;if(a%30===0)g+=T(cx+(R+5)*Math.cos(r),cy-(R+5)*Math.sin(r)+1.5,a,4.2)}
+    const r=th*Math.PI/180;g+=`<line x1="${cx}" y1="${cy}" x2="${cx+R-1}" y2="${cy}" stroke="#111" stroke-width="1.4"/><line x1="${cx}" y1="${cy}" x2="${num(cx+(R-1)*Math.cos(r))}" y2="${num(cy-(R-1)*Math.sin(r))}" stroke="#111" stroke-width="1.4"/>${dot(cx,cy,1.2)}`;
+    return{q:`<div class="fig">${SVGW('0 0 100 60',g)}</div>`,a:`<b>${th}°</b>`,steps:['0° の線に 合わせた 辺から 数える',`もう1つの 辺は ${th}° の 目もりを 通っている`]}}},
 ]);
 addUnits(4,'折れ線グラフ',[
  {id:'g4-line',title:'折れ線グラフを 読む',kind:'fig',n:2,cols:1,lead:'折れ線グラフを 見て 答えましょう。',
@@ -276,7 +276,7 @@ addUnits(5,'図形の 面積と 体積',[
     const P0=[[0,0],[b,0],[c*Math.cos(ra),-c*Math.sin(ra)]];const flip=chance(.5),rot=chance(.5);
     let Q=P0.map(p=>[flip?-p[0]:p[0],p[1]]);if(rot)Q=Q.map(p=>[-p[0],-p[1]]);
     const fitTo=(P,x0,w,h)=>{const xs=P.map(p=>p[0]),ys=P.map(p=>p[1]),mn=[Math.min(...xs),Math.min(...ys)],sz=Math.max(Math.max(...xs)-mn[0],(Math.max(...ys)-mn[1])*1.2);const u=w/sz;return P.map(p=>[x0+(p[0]-mn[0])*u,6+(p[1]-mn[1])*u])};
-    const P1=fitTo(P0,6,38),P2=fitTo(Q,56,38);const nm2=shuffle(['D','E','F']);
+    const P1=fitTo(P0,4,34),P2=fitTo(Q,66,34);const nm2=shuffle(['D','E','F']);
     const mid=(p,q,t)=>T((p[0]+q[0])/2,(p[1]+q[1])/2+4,t,4.6);
     const svg=SVGW('0 -4 100 60',`${polyS(P1,1,0,0,'#111','#ededed',1)}${polyS(P2,1,0,0,'#111','#ededed',1)}${vLabels(P1,['A','B','C'],5)}${vLabels(P2,nm2,5)}${sideLab(P1,0,1,b+'cm')}${sideLab(P1,0,2,c+'cm')}${angLab(P1,0,A+'°')}`);
     return{q:`<div class="fig" style="max-width:120mm">${svg}</div><div class="figcap">(1) 頂点Aに 対応する 頂点は どれですか。　(2) 辺${nm2[0]}${nm2[2]}の 長さは 何 cm ですか。　(3) 角${nm2[0]}の 大きさは 何度ですか。</div>`,parts:['(1)','(2)','(3)'],
@@ -289,7 +289,7 @@ addUnits(5,'平均・単位量・速さ・割合',[
     for(;;){p=[ri(6,9)*5,ri(3,6)*5,ri(2,4)*5,ri(1,3)*5];const s=p.reduce((a,b)=>a+b);if(s<100&&100-s<=p[3]){p.sort((a,b)=>b-a);if(new Set(p).size===4)break}}
     const other=100-p.reduce((a,b)=>a+b),labs=[...items,'その他'],vals=[...p,other],N=pick([40,60,80,120,200,300]);
     let g='',a0=-Math.PI/2;vals.forEach((v,i)=>{const a1=a0+v/100*2*Math.PI,lg=v>50?1:0;g+=`<path d="M50,45 L${num(50+38*Math.cos(a0))},${num(45+38*Math.sin(a0))} A38,38 0 ${lg} 1 ${num(50+38*Math.cos(a1))},${num(45+38*Math.sin(a1))} Z" fill="${['#e8e8e8','#d0d0d0','#f4f4f4','#bdbdbd','#fff'][i]}" stroke="#111" stroke-width=".7"/>`;
-      const m=(a0+a1)/2;g+=T(50+24*Math.cos(m),45+24*Math.sin(m),labs[i].length>5?labs[i].slice(0,4)+'…':labs[i],3.4)+T(50+24*Math.cos(m),45+24*Math.sin(m)+4.5,v+'%',3.6);a0=a1});
+      const m=(a0+a1)/2,rr=v<15?50:24;g+=T(50+rr*Math.cos(m),45+rr*Math.sin(m),labs[i].length>5?labs[i].slice(0,4)+'…':labs[i],3.4)+T(50+rr*Math.cos(m),45+rr*Math.sin(m)+4.5,v+'%',3.6);a0=a1});
     for(let k=0;k<20;k++){const a=-Math.PI/2+k/20*2*Math.PI;g+=`<line x1="${num(50+38*Math.cos(a))}" y1="${num(45+38*Math.sin(a))}" x2="${num(50+41*Math.cos(a))}" y2="${num(45+41*Math.sin(a))}" stroke="#111" stroke-width=".4"/>`}
     const ratio=new Fr(p[0],p[2]);
     return{q:`<div class="figcap">${N}人に、いちばん好きなスポーツを聞きました。（${labs.slice(0,4).join('、')}、その他）</div><div class="fig" style="max-width:70mm">${SVGW('0 0 100 90',g)}</div><div class="figcap">(1) ${labs[1]}は全体の何%ですか。　(2) ${labs[0]}と答えた人は何人ですか。　(3) ${labs[0]}は、${labs[2]}の何倍ですか。</div>`,parts:['(1)','(2)','(3)'],
