@@ -138,6 +138,20 @@ input[type="number"]{width:110px;font-variant-numeric:tabular-nums}
 .k-fig .p{flex-direction:column;align-items:stretch;gap:1mm;padding-block:2mm}
 .k-fig .p .no{padding-top:0}
 .fig svg{width:100%;height:auto;display:block}
+/* 図が大きすぎて1枚に入る問題が少ない単元は、図を小さめにする */
+.sec[data-uid^="g1-numline"] .fig,.sec[data-uid^="g3-decline"] .fig{max-width:125mm!important}
+.sec[data-uid^="g2-ruler"] .fig{max-width:135mm!important}
+.sec[data-uid^="enl-side"] .fig,.sec[data-uid^="g5-cong"] .fig,.sec[data-uid^="enl-grid"] .fig{max-width:112mm!important}
+.sec[data-uid^="dotplot"] .fig{max-width:100mm!important}
+.sec[data-uid^="g4-net"] .fig,.sec[data-uid^="enl-find"] .fig{max-width:140mm!important}
+.sec[data-uid^="g4-fraceq"] .fig,.sec[data-uid^="x-pattern"] .fig{max-width:115mm!important}
+.sec[data-uid^="approx-grid"] .fig,.sec[data-uid^="enl-center"] .fig,.sec[data-uid^="g4-cuboid"] .fig,.sec[data-uid^="g4-position"] .fig,.sec[data-uid^="sym-corr"] .fig{max-width:72mm!important;margin:0 auto}
+.sec[data-uid^="g3-bar"] .fig,.sec[data-uid^="g4-line"] .fig{max-width:68mm!important;margin:0 auto}
+.sec[data-uid^="graph-read"] .fig,.sec[data-uid^="g5-pie"] .fig{max-width:52mm!important;margin:0 auto}
+.sec[data-uid^="prop-graph"] .fig,.sec[data-uid^="inv-graph"] .fig,.sec[data-uid^="comb-tree"] .fig{max-width:58mm!important;margin:0 auto}
+.sec[data-uid^="g2-mulpic"] .fig{max-width:36mm!important}
+/* 解答らんが3つ以上あるときは2列にして、たての長さを節約する */
+.answer-lines:has(.ln:nth-child(3)){display:grid;grid-template-columns:1fr 1fr;column-gap:6mm}
 .sheet svg text{paint-order:stroke fill;stroke:#fff;stroke-width:1px;stroke-linejoin:round}
 .figcap{font-size:10pt}
 .tbl{border-collapse:collapse;margin:2mm 0;font-variant-numeric:tabular-nums;font-size:10pt}
