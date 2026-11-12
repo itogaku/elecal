@@ -469,7 +469,7 @@ addUnits(6,'円の面積・立体の体積',[
   gen(){if(chance(.5)){const R=ri(3,6),r=ri(1,R-2),h=ri(4,10);const v=num((R*R-r*r)*3.14*h);
      const g=`<ellipse cx="50" cy="70" rx="36" ry="10" fill="#e6e6e6" stroke="#111" stroke-width=".8"/><rect x="14" y="22" width="72" height="48" fill="#e6e6e6" stroke="none"/><line x1="14" y1="22" x2="14" y2="70" stroke="#111" stroke-width=".8"/><line x1="86" y1="22" x2="86" y2="70" stroke="#111" stroke-width=".8"/><ellipse cx="50" cy="22" rx="36" ry="10" fill="#f4f4f4" stroke="#111" stroke-width=".8"/><ellipse cx="50" cy="22" rx="${num(36*r/R)}" ry="${num(10*r/R)}" fill="#fff" stroke="#111" stroke-width=".8"/>${T(70,20,R+'cm',4.2)}${T(50,25,r+'cm',3.6)}${T(91,48,h+'cm',4.2,'start')}`;
      return{q:`<div class="fig" style="max-width:55mm">${SVGW('0 0 104 84',g)}</div><div class="figcap">（円柱の中心を円柱の形にくりぬいた立体。外側の半径 ${R}cm、穴の半径 ${r}cm）</div>`,a:`<b>${v} cm³</b>`,steps:[`底面積：${R} × ${R} × 3.14 − ${r} × ${r} × 3.14 = ${num((R*R-r*r)*3.14)}`,`体積：${num((R*R-r*r)*3.14)} × ${h} = ${v}`]}}
-   return GRADE_UNITS[5].find(c=>c.ch==='図形の 面積と 体積').items.find(u=>u.id==='g5-volcombo').gen()}},
+   return copyU(5,'g5-volcombo','x').gen()}},
  {id:'approx-area',title:'およその面積・体積',kind:'word',n:4,cols:1,lead:'およその形とみて、面積や体積を求めましょう。円周率は 3.14 とします。',
   explain:{points:[{h:'およその形とみる',b:'池や土地の形を、円・長方形・三角形などの形とみて計算します。'},{h:'がい数で答える',b:'求めた答えは「約〜」と表します。'}],tip:'<b>こつ</b>　実際の形に近い、計算しやすい形を選びましょう。'},
   gen(){return pick([

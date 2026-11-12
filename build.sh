@@ -5,7 +5,7 @@
 cd "$(dirname "$0")"
 mkdir -p dist
 python3 - << 'PY'
-src=open('src/app.html',encoding='utf-8').read().replace('/*SCRIPT*/',open('src/script.js',encoding='utf-8').read().replace('/*GRADES*/',open('src/grades.js',encoding='utf-8').read()).replace('/*MORE*/',open('src/more.js',encoding='utf-8').read()+'\n'+open('src/more2.js',encoding='utf-8').read()+'\n'+open('src/more3.js',encoding='utf-8').read()+'\n'+open('src/more4.js',encoding='utf-8').read()+'\n'+open('src/more5.js',encoding='utf-8').read()+'\n'+open('src/more6.js',encoding='utf-8').read()))
+src=open('src/app.html',encoding='utf-8').read().replace('/*SCRIPT*/',open('src/script.js',encoding='utf-8').read().replace('/*GRADES*/',open('src/grades.js',encoding='utf-8').read()).replace('/*MORE*/',open('src/more.js',encoding='utf-8').read()+'\n'+open('src/more2.js',encoding='utf-8').read()+'\n'+open('src/more3.js',encoding='utf-8').read()+'\n'+open('src/more4.js',encoding='utf-8').read()+'\n'+open('src/more5.js',encoding='utf-8').read()+'\n'+open('src/more7.js',encoding='utf-8').read()+'\n'+open('src/more6.js',encoding='utf-8').read()))
 import re
 page='<!doctype html>\n<html lang="ja">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">\n</head>\n<body>\n'+src+'\n</body>\n</html>\n'
 open('index.html','w',encoding='utf-8').write(page)
