@@ -154,6 +154,8 @@ input[type="number"]{width:110px;font-variant-numeric:tabular-nums}
 .answer-lines:has(.ln:nth-child(3)){display:grid;grid-template-columns:1fr 1fr;column-gap:6mm}
 .sheet svg text{paint-order:stroke fill;stroke:#fff;stroke-width:1px;stroke-linejoin:round}
 .figcap{font-size:10pt}
+.sec[data-uid^="g5-venn"] .answer-lines{grid-template-columns:repeat(4,1fr)!important}
+.side{display:flex;gap:5mm;align-items:center}.side>.fig{flex:0 0 auto;margin:0}.side>.figcap{flex:1;line-height:1.7}
 .tbl{border-collapse:collapse;margin:2mm 0;font-variant-numeric:tabular-nums;font-size:10pt}
 .tbl th,.tbl td{border:.3mm solid var(--ink);padding:1mm 2.4mm;text-align:center;min-width:11mm;height:8mm}
 .tbl th{background:var(--paper-tint);font-weight:700;white-space:nowrap}

@@ -161,6 +161,8 @@ input[type="number"]{width:110px;font-variant-numeric:tabular-nums}
 .answer-lines:has(.ln:nth-child(3)){display:grid;grid-template-columns:1fr 1fr;column-gap:6mm}
 .sheet svg text{paint-order:stroke fill;stroke:#fff;stroke-width:1px;stroke-linejoin:round}
 .figcap{font-size:10pt}
+.sec[data-uid^="g5-venn"] .answer-lines{grid-template-columns:repeat(4,1fr)!important}
+.side{display:flex;gap:5mm;align-items:center}.side>.fig{flex:0 0 auto;margin:0}.side>.figcap{flex:1;line-height:1.7}
 .tbl{border-collapse:collapse;margin:2mm 0;font-variant-numeric:tabular-nums;font-size:10pt}
 .tbl th,.tbl td{border:.3mm solid var(--ink);padding:1mm 2.4mm;text-align:center;min-width:11mm;height:8mm}
 .tbl th{background:var(--paper-tint);font-weight:700;white-space:nowrap}
@@ -2754,8 +2756,8 @@ const NEW5E={
  'g5-venn':{id:'g5-venn',title:'倍数の個数（図で整理）',kind:'word',n:3,cols:1,lead:'図を見ながら、つぎの問題に答えましょう。',parts:['(1)','(2)','(3)','(4)'],
   explain:{points:[{h:'□の倍数の個数',b:'1から N までに、□の倍数は N ÷ □ の商の数だけあります（あまりは切りすてる）。',ex:'1〜100 の 6の倍数 → 100 ÷ 6 = 16 あまり 4 → 16こ'},{h:'重なりに気をつける',b:'2つの円が重なったところが公倍数です。最小公倍数の倍数を数えます。'}],tip:'<b>こつ</b>　「どちらでもない数」は、全体から「少なくともどちらかの倍数」をひきます。'},
   gen(){const pairs=[[2,3],[3,4],[4,6],[6,9],[4,10],[6,8],[3,5],[2,5],[5,6],[8,12]];const [a,b]=pick(pairs),N=pick([50,60,80,100,120,150,200]);const L=lcm(a,b),na=Math.floor(N/a),nb=Math.floor(N/b),nl=Math.floor(N/L),no=N-(na+nb-nl);
-   const g=`<rect x="2" y="2" width="96" height="40" fill="#fff" stroke="#111" stroke-width=".5"/><circle cx="38" cy="23" r="15" fill="${CB}" fill-opacity=".6" stroke="#111" stroke-width=".5"/><circle cx="60" cy="23" r="15" fill="${CR}" fill-opacity=".6" stroke="#111" stroke-width=".5"/>`+T(31,24.5,a+'の倍数',3.6)+T(67,24.5,b+'の倍数',3.6)+T(49,24.5,'両方',3.2)+T(5,7.5,`1〜${N}の整数`,3.6,'start');
-   return{q:`<div class="fig" style="max-width:64mm">${SVGW('0 0 100 44',g)}</div><div class="figcap">1から${N}までの整数について答えましょう。(1) ${a}の倍数はいくつ　(2) ${b}の倍数はいくつ　(3) ${a}と${b}の公倍数はいくつ　(4) ${a}の倍数でも${b}の倍数でもない数はいくつ</div>`,parts:['(1)','(2)','(3)','(4)'],
+   const g=`<rect x="2" y="2" width="96" height="40" fill="#fff" stroke="#111" stroke-width=".5"/><circle cx="38" cy="23" r="15" fill="${CB}" fill-opacity=".6" stroke="#111" stroke-width=".5"/><circle cx="60" cy="23" r="15" fill="${CR}" fill-opacity=".6" stroke="#111" stroke-width=".5"/>`+T(30,25,a+'の倍数',4.6)+T(68,25,b+'の倍数',4.6)+T(49,25,'両方',4)+T(5,8,`1〜${N}`,4.6,'start');
+   return{q:`<div class="side"><div class="fig" style="width:50mm">${SVGW('0 0 100 44',g)}</div><div class="figcap">1から${N}までの整数について<br>(1) ${a}の倍数はいくつ<br>(2) ${b}の倍数はいくつ<br>(3) ${a}と${b}の公倍数はいくつ<br>(4) ${a}の倍数でも${b}の倍数でもない数はいくつ</div></div>`,parts:['(1)','(2)','(3)','(4)'],
     a:`(1) ${na}こ　(2) ${nb}こ　(3) ${nl}こ　(4) ${no}こ`,steps:[`(1) ${N} ÷ ${a} = ${na} あまり ${N%a}`,`(2) ${N} ÷ ${b} = ${nb} あまり ${N%b}`,`(3) 最小公倍数は ${L}。${N} ÷ ${L} = ${nl} あまり ${N%L}`,`(4) ${N} − (${na} + ${nb} − ${nl}) = ${no}`]}}},
  'g5-remain':{id:'g5-remain',title:'あまりと公倍数・公約数',kind:'word',n:5,cols:1,lead:'つぎの問題に答えましょう。',parts:['答え'],
   explain:{points:[{h:'どちらでわっても同じだけあまる',b:'□でわっても△でわっても1あまる数は、「□と△の公倍数」に1をたした数です。',ex:'4でも6でも1あまる → 12 + 1 = 13'},{h:'あまりをひいてわり切れる数',b:'50をわると2あまる数は、50 − 2 = 48 をわり切る数（ただし2より大きい数）です。'}],tip:'<b>こつ</b>　あまりの分をひいたりたしたりして、「わり切れる」問題になおしましょう。'},
@@ -2792,13 +2794,13 @@ const NEW5E={
   explain:{points:[{h:'円柱の展開図',b:'側面は長方形になります。長方形の横の長さは、底面の円の円周と同じです。',ex:'直径 4cm → 横 4 × 3.14 = 12.56cm'},{h:'角柱の展開図',b:'側面は長方形がならんだ形です。全体の横の長さは、底面のまわりの長さと同じです。'}],tip:'<b>こつ</b>　組み立てたとき、どの辺とどの辺がくっつくかを考えましょう。'},
   gen(){if(chance(.5)){const d=pick([2,3,4,5,6,8,10]),h=ri(3,10);const Lw=d*3.14,s=Math.min(90/Lw,4.5),r=d*s/2,ox=6,oy=2*r+4;
     let g=`<rect x="${ox}" y="${num(oy)}" width="${num(Lw*s)}" height="${num(h*s)}" fill="#f4f4f4" stroke="#111" stroke-width=".6"/><circle cx="${num(ox+Lw*s/2)}" cy="${num(oy-r)}" r="${num(r)}" fill="${CB}" stroke="#111" stroke-width=".6"/><circle cx="${num(ox+Lw*s/2)}" cy="${num(oy+h*s+r)}" r="${num(r)}" fill="${CB}" stroke="#111" stroke-width=".6"/>`;
-    g+=`<line x1="${num(ox+Lw*s/2-r)}" y1="${num(oy-r)}" x2="${num(ox+Lw*s/2+r)}" y2="${num(oy-r)}" stroke="#111" stroke-width=".4"/>`+T(ox+Lw*s/2+r+2,oy-r+1.3,'直径 '+d+'cm',3.6,'start')+T(ox+Lw*s+2,oy+h*s/2+1.3,h+'cm',3.6,'start')+T(ox+Lw*s/2,oy+h*s/2+1.3,'ア',4);
-    return{q:`<div class="fig" style="max-width:${num(Math.min(95,(ox+Lw*s+30)*.9))}mm">${SVGW(`0 0 ${num(ox+Lw*s+30)} ${num(oy+h*s+2*r+3)}`,g)}</div><div class="figcap">(1) 何という立体ですか。　(2) 側面アの長方形の横の長さは何cmですか。</div>`,parts:['(1)','(2)'],a:`(1) 円柱　(2) ${num(Lw)}cm`,steps:['(1) 2つの合同な円が底面、長方形が側面','(2) 横の長さ ＝ 底面の円周',`${d} × 3.14 = ${num(Lw)}`]}}
+    g+=`<line x1="${num(ox+Lw*s/2-r)}" y1="${num(oy-r)}" x2="${num(ox+Lw*s/2+r)}" y2="${num(oy-r)}" stroke="#111" stroke-width=".4"/>`+T(ox+Lw*s/2+r+2,oy-r+2,'直径 '+d+'cm',6,'start')+T(ox+Lw*s+2,oy+h*s/2+2,h+'cm',6,'start')+T(ox+Lw*s/2,oy+h*s/2+2,'ア',6.5);
+    return{q:`<div class="side"><div class="fig" style="width:${num(Math.min(66,40*(ox+Lw*s+40)/(oy+h*s+2*r+3)))}mm">${SVGW(`0 0 ${num(ox+Lw*s+40)} ${num(oy+h*s+2*r+3)}`,g)}</div><div class="figcap">(1) 何という立体ですか。<br>(2) 側面アの長方形の横の長さは何cmですか。</div></div>`,parts:['(1)','(2)'],a:`(1) 円柱　(2) ${num(Lw)}cm`,steps:['(1) 2つの合同な円が底面、長方形が側面','(2) 横の長さ ＝ 底面の円周',`${d} × 3.14 = ${num(Lw)}`]}}
    const n=pick([3,4,5,6]),e=Array.from({length:n},()=>ri(2,5)),h=ri(3,7),s=3.6,ox=6,oy=12;const reg=n>3;if(reg)e.fill(e[0]);else if(Math.max(...e)*2>=e.reduce((x,y)=>x+y,0))return this.gen();const P=e.reduce((x,y)=>x+y,0);
-   let g='',x=ox;e.forEach((v,i)=>{g+=`<rect x="${num(x)}" y="${oy}" width="${num(v*s)}" height="${num(h*s)}" fill="#f4f4f4" stroke="#111" stroke-width=".6"/>`+T(x+v*s/2,oy+h*s+5,v+'cm',3.2);x+=v*s});
-   g+=T(x+2,oy+h*s/2+1.3,h+'cm',3.6,'start');const nm={3:'三角柱',4:'四角柱',5:'五角柱',6:'六角柱'}[n];
-   g+=`<rect x="${ox}" y="2" width="${num(e[0]*s)}" height="8" fill="${CB}" stroke="#111" stroke-width=".5"/>`+T(ox+e[0]*s+2,7.5,'底面（'+{3:'三角形',4:'正方形',5:'正五角形',6:'正六角形'}[n]+'）',3.2,'start');
-   return{q:`<div class="fig" style="max-width:${num(Math.min(100,(x+16)*1.0))}mm">${SVGW(`0 0 ${num(x+16)} ${num(oy+h*s+8)}`,g)}</div><div class="figcap">側面の長方形が${n}つならんでいます（底面は1つだけかいています）。(1) 何という立体ですか。　(2) 側面全体の横の長さは何cmですか。</div>`,parts:['(1)','(2)'],a:`(1) ${nm}　(2) ${P}cm`,steps:[`(1) 側面が${n}つ → 底面は${n}角形 → ${nm}`,`(2) 横の長さ ＝ 底面のまわりの長さ`,`${e.join(' + ')} = ${P}`]}}},
+   let g='',x=ox;e.forEach((v,i)=>{g+=`<rect x="${num(x)}" y="${oy}" width="${num(v*s)}" height="${num(h*s)}" fill="#f4f4f4" stroke="#111" stroke-width=".6"/>`+T(x+v*s/2,oy+h*s+6,v+'cm',4.6);x+=v*s});
+   g+=T(x+2,oy+h*s/2+1.8,h+'cm',5,'start');const nm={3:'三角柱',4:'四角柱',5:'五角柱',6:'六角柱'}[n];
+   g+=`<rect x="${ox}" y="2" width="${num(e[0]*s)}" height="8" fill="${CB}" stroke="#111" stroke-width=".5"/>`+T(ox+e[0]*s+2,8,'底面（'+{3:'三角形',4:'正方形',5:'正五角形',6:'正六角形'}[n]+'）',4.6,'start');
+   return{q:`<div class="side"><div class="fig" style="width:${num(Math.min(80,34*(x+22)/(oy+h*s+10)))}mm">${SVGW(`0 0 ${num(x+22)} ${num(oy+h*s+10)}`,g)}</div><div class="figcap">側面の長方形が${n}つならんでいます（底面は1つだけかいています）。<br>(1) 何という立体ですか。<br>(2) 側面全体の横の長さは何cmですか。</div></div>`,parts:['(1)','(2)'],a:`(1) ${nm}　(2) ${P}cm`,steps:[`(1) 側面が${n}つ → 底面は${n}角形 → ${nm}`,`(2) 横の長さ ＝ 底面のまわりの長さ`,`${e.join(' + ')} = ${P}`]}}},
  'g5-pctable':{id:'g5-pctable',title:'くらべる量・もとにする量・割合',kind:'calc',n:12,cols:2,lead:'□にあてはまる数を書きましょう。',
   explain:{points:[{h:'3つの関係',b:'くらべる量 ＝ もとにする量 × 割合、割合 ＝ くらべる量 ÷ もとにする量、もとにする量 ＝ くらべる量 ÷ 割合'},{h:'割合の表し方',b:'0.1 ＝ 10% ＝ 1割、0.01 ＝ 1% ＝ 1分、0.001 ＝ 1厘'}],tip:'<b>こつ</b>　「〇〇の」の〇〇がもとにする量です。百分率や歩合は小数になおしてから計算します。'},
   gen(){const t=ri(0,4),B=pick([20,40,50,60,80,120,150,200,240,300,400,500,800]),p=pick([5,10,15,20,25,30,40,45,60,75,80,120,150]);const C=B*p/100;if(C%1)return this.gen();const wr=Math.floor(p/10),bu=p%10;const wari=`${wr?wr+'割':''}${bu?bu+'分':''}`;
@@ -2854,7 +2856,8 @@ const PER_PAGE={
 '5:g5-road':6,
 '5:g5-cubecount':6,
 '5:g5-ratio2':4,
-'5:g5-venn':3,
+'5:g5-venn':4,
+'5:g5-net':3,
 '5:g5-arcperim':6,
 '1:g1-add10':33,
 '1:g1-add20':33,
