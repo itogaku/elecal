@@ -4,6 +4,14 @@
 (()=>{const TWO_COL=['g3-bar','g3-bar-draw','g4-line','g4-line-draw','graph-read','g5-pie','comb-league'];
   for(const g in GRADE_UNITS)GRADE_UNITS[g].concat([PUZZLE_CHAPTER]).forEach(ch=>ch.items.forEach(u=>{if(TWO_COL.includes(u.id))u.cols=2}))})();
 const PER_PAGE={
+'5:g5-r-add':22,
+'5:g5-r-sub':22,
+'5:g5-r-mul':22,
+'5:g5-r-div2':22,
+'5:g5-r-rule':22,
+'5:g5-r-order':22,
+'5:g5-unitmix':22,
+'5:g5-calcest':20,
 '6:pz-hitofude':12,
 '6:pz-water':7,
 '5:g5-prime':9,
