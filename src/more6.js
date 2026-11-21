@@ -4,6 +4,13 @@
 (()=>{const TWO_COL=['g3-bar','g3-bar-draw','g4-line','g4-line-draw','graph-read','g5-pie','comb-league'];
   for(const g in GRADE_UNITS)GRADE_UNITS[g].concat([PUZZLE_CHAPTER]).forEach(ch=>ch.items.forEach(u=>{if(TWO_COL.includes(u.id))u.cols=2}))})();
 const PER_PAGE={
+'3:c3-tsuru':7,
+'3:c3-overlap':7,
+'3:c3-ampm':8,
+'3:c3-mushikui':16,
+'3:c3-coins':7,
+'3:c3-wasa':4,
+'3:c3-baisa':4,
 '3:r3-add':22,
 '3:r3-sub':22,
 '3:r3-kuku':33,
