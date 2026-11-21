@@ -4,6 +4,18 @@
 (()=>{const TWO_COL=['g3-bar','g3-bar-draw','g4-line','g4-line-draw','graph-read','g5-pie','comb-league'];
   for(const g in GRADE_UNITS)GRADE_UNITS[g].concat([PUZZLE_CHAPTER]).forEach(ch=>ch.items.forEach(u=>{if(TWO_COL.includes(u.id))u.cols=2}))})();
 const PER_PAGE={
+'5:c5-nensa':9,
+'5:c5-nouko':9,
+'6:c6-mix':9,
+'5:c5-kabusoku':7,
+'5:c5-shigoto':7,
+'5:c5-tsuuka':7,
+'6:c6-yaritori':7,
+'6:c6-ryusui':7,
+'6:c6-sonneki':7,
+'6:c6-ike':7,
+'6:c6-wa':11,
+'6:c6-cards':7,
 '3:c3-tsuru':7,
 '3:c3-overlap':7,
 '3:c3-ampm':8,
